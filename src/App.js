@@ -11,9 +11,30 @@ import { Grid, GridItem } from '@chakra-ui/react'
 
 import { Flex, Spacer } from '@chakra-ui/react'
 
-function App() {
-  return (
+import {useFormik} from 'formik'
+import { signUpSchema } from './Schemas/indexj';
 
+const initialValues = {
+  full_name :"",
+  email:"",
+  password:"",
+  number:""  
+}
+
+
+function App() {
+  
+  const {values,errors,handleBlur,handleChange,handleSubmit} =   useFormik({
+      initialValues:initialValues,
+      validationSchema :signUpSchema,
+      onSubmit:(values) =>{
+          console.log(values)        
+      }
+    })
+
+
+  return (
+  
       <Flex  ml={120}>
         <Box  w="1000px">
           <Flex pt={5}>
@@ -28,15 +49,19 @@ function App() {
           
    
    <Container mt={200} maxW="md">
-   <Stack spacing={4}>
+   
+<form onSubmit={handleSubmit}>
+<Stack spacing={4}>
 <Heading>Sign Up Here!</Heading>
-<Input  type="text" placeholder='Full Name' />
-  <Input  type="email" placeholder='Email' />
-  <Input type="password" placeholder='Password' />
-  <Input type="number" placeholder='Phone Number' />
-  <Button colorScheme='blue'>Get Started</Button>
+<Input  name="full_name" value={values.full_name} onChange={handleChange} onBlur={handleBlur} type="text" placeholder='Full Name' />
+  <Input name="email"  value={values.email} onChange={handleChange} onBlur={handleBlur} type="email" placeholder='Email' />
+  <Input name="password" value={values.password} onChange={handleChange} onBlur={handleBlur} type="password" placeholder='Password' />
+  <Input name="number" value={values.number} onChange={handleChange} onBlur={handleBlur} type="number" placeholder='Phone Number' />
+  <Button colorScheme='blue' type='submit' onSubmit={handleSubmit}>Get Started</Button>
 
 </Stack>
+
+</form>
 
     </Container>     
 
